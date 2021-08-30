@@ -1,0 +1,33 @@
+if(now() > prop("Do Date"), 
+    dateAdd(dateAdd(prop("Do Date"), prop("Amount"), prop("RT")), prop("extra day to add"), "days"), 
+    dateAdd(prop("Do Date"), prop("Amount"), prop("RT"))
+)
+
+
+if(year(now()) > year(prop("Do Date")) and month(now()) == 0 and month(prop("Do Date")) == 11, 
+    if(mod(year(now()), 4) == 0, 365, 366) + date(now()) - (prop("N_DAY_DO_DATE") + date(prop("Do Date"))), 
+    ((prop("N_DAY_DO_DATE"))+date(prop("Do Date"))) - (prop("N_DAY_NOW")+date(now()))
+)
+
+#formula completed
+
+if(month(now()) == month(prop("Do Date")), 
+    date(prop("Do Date")) - date(now()), 
+    if(year(now()) > year(prop("Do Date")) and month(now()) == 0 and month(prop("Do Date")) == 11, 
+        if(mod(year(now()), 4) == 0, 365, 366) + date(now()) - (prop("N_DAY_DO_DATE") + date(prop("Do Date"))), 
+        (prop("N_DAY_NOW") + date(now())) - (prop("N_DAY_DO_DATE") + date(prop("Do Date")))
+    )
+)
+
+
+if(
+    prop("Done"), 
+    "🌕", 
+    if( 
+        now() <= prop("Do Date"), 
+        if(prop("Amount")>0, if(length(prop("Sub Tasks")) > 0,"→🔁",if(length(prop("Parent Task")) > 0, "←🔁", "🔁")), if(length(prop("Sub Tasks")) > 0, "→✅", if(length(prop("Parent Task")) > 0, "←✅", "✅"))), 
+        if(prop("Amount")>0, if(length(prop("Sub Tasks")) > 0,"→🛑",if(length(prop("Parent Task")) > 0, "←🛑", "🛑)), if(length(prop("Sub Tasks")) > 0, "→🔴", if(length(prop("Parent Task")) > 0, "←🔴", "🔴")))
+    )
+)
+
+if(timestamp(now()) - timestamp(end(prop("Do Date"))) <= 86400000, dateAdd(dateAdd(end(prop("Do Date")), prop("Amount"), prop("RT")), prop("extra day to add"), "days"), dateAdd(end(prop("Do Date")), prop("Amount"), prop("RT")))
