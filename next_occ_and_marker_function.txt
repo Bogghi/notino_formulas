@@ -31,3 +31,16 @@ if(
 )
 
 if(timestamp(now()) - timestamp(end(prop("Do Date"))) <= 86400000, dateAdd(dateAdd(end(prop("Do Date")), prop("Amount"), prop("RT")), prop("extra day to add"), "days"), dateAdd(end(prop("Do Date")), prop("Amount"), prop("RT")))
+
+if(
+    prop("Done"), 
+    "🌕", 
+    if(
+        timestamp(now()) - timestamp(prop("Do Date")) <= 86400000, 
+        if(prop("Amount") > 0, if(length(prop("Sub Tasks")) > 0, "→🔁", if(length(prop("Parent Task")) > 0, "←🔁", "🔁")), if(length(prop("Sub Tasks")) > 0, "→✅", if(length(prop("Parent Task")) > 0, "←✅", "✅"))), 
+        if(prop("Amount") > 0, if(length(prop("Sub Tasks")) > 0, "→❗", if(length(prop("Parent Task")) > 0, "←❗", "❗")), if(length(prop("Sub Tasks")) > 0, "→🔴", if(length(prop("Parent Task")) > 0, "←🔴", "🔴")))
+    )
+)
+
+
+if(prop("Priority") == "On Hold","⏸️",if(prop("Inbox"),"📥",if(prop("Done"), "🌕", if(timestamp(now()) - timestamp(prop("Do Date")) <= 86400000, if(prop("Amount") > 0, if(length(prop("Sub Tasks")) > 0, "→🔁", if(length(prop("Parent Task")) > 0, "←🔁", "🔁")), if(length(prop("Sub Tasks")) > 0, "→✅", if(length(prop("Parent Task")) > 0, "←✅", "✅"))), if(prop("Amount") > 0, if(length(prop("Sub Tasks")) > 0, "→❗", if(length(prop("Parent Task")) > 0, "←❗", "❗")), if(length(prop("Sub Tasks")) > 0, "→🔴", if(length(prop("Parent Task")) > 0, "←🔴", "🔴")))))))
